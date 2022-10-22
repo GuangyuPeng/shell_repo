@@ -1,0 +1,27 @@
+#!/bin/bash
+#
+# Automatically install common developmental tools.
+# Author: Guangyu Peng
+
+echo "######################### Install tools ##########################"
+set -xe
+
+TOOL_LIST=("vim" \
+           "git" \
+           "tmux" \
+           "wget" \
+           "net-tools" \
+           "build-essential" \
+           "openssh-server" \
+           "openssh-client" \
+           "landscape-common" \
+           "update-notifier-common" \
+           "fwupd" \
+          )
+
+for tool in "${TOOL_LIST[@]}"; do
+  sudo apt -y install "${tool}"
+done
+
+set +x
+echo "######################### Tools ready ############################"

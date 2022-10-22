@@ -1,0 +1,25 @@
+#!/bin/bash
+#
+# Automatically get and set the public keys from github.com.
+# DO NOT use sudo to excute this script!!!
+# Author: Guangyu Peng
+
+set -xe
+
+USER_NAME="GuangyuPeng"
+KEYS_FILE="github_keys"
+
+keys_url="https://github.com/${USER_NAME}.keys"
+
+cd "${HOME}"
+wget --user-agent="Mozilla/5.0" --retry-connrefused -O "${KEYS_FILE}" "${keys_url}"
+
+mkdir -p "${HOME}/.ssh"
+chmod 700 "${HOME}/.ssh"
+cat "${KEYS_FILE}" >> "${HOME}/.ssh/authorized_keys"
+chmod 600 "${HOME}/.ssh/authorized_keys"
+
+rm "${KEYS_FILE}"
+
+set +x
+echo "Pub keys are ready."

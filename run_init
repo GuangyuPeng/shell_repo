@@ -1,0 +1,19 @@
+#!/bin/bash
+#
+# Automatically run shell scripts in etc/ one by one.
+# Author: Guangyu Peng
+
+echo "###################### Start Initialization ######################"
+set -xe
+
+script_dir=$(dirname $0)
+cd "${script_dir}"
+
+./init/01_set_basic
+./init/02_set_mirror_src
+./init/03_install_dev_tools
+./init/04_configure_dev_tools
+./init/05_configure_sshd
+
+set +x
+echo "### Congratulations! The basic Environment is ready in system! ###"

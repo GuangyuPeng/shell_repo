@@ -1,0 +1,29 @@
+#!/bin/bash
+#
+# Automatically configure the software mirror source as mirrors.aliyun.com.
+# Author: Guangyu Peng
+
+echo "####################### Set mirror source ########################"
+set -xe
+
+PKT_SRC_PATH="/etc/apt"
+PKT_SRC_FILE="sources.list"
+PKT_SRC_BAK="sources.list.bak"
+ORIGIN_SRC="archive.ubuntu.com"
+SECURITY_SRC="security.ubuntu.com"
+MIRROR_SRC="mirrors.aliyun.com"
+
+# back up orignal source file
+if [[ ! -f "${PKT_SRC_PATH}/${PKT_SRC_BAK}" ]]; then
+  sudo cp "${PKT_SRC_PATH}/${PKT_SRC_FILE}" "${PKT_SRC_PATH}/${PKT_SRC_BAK}"
+fi
+
+# replace original source with mirror source
+sudo sed -i "s/${ORIGIN_SRC}/${MIRROR_SRC}/g" "${PKT_SRC_PATH}/${PKT_SRC_FILE}"
+sudo sed -i "s/${SECURITY_SRC}/${MIRROR_SRC}/g" "${PKT_SRC_PATH}/${PKT_SRC_FILE}"
+
+sudo apt update
+sudo apt -y upgrade
+
+set +x
+echo "####################### Mirror source ready ######################"

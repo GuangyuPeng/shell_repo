@@ -1,0 +1,35 @@
+#!/bin/bash
+#
+# Automatically add configuration files for common developmental tools.
+# Author: Guangyu Peng
+
+echo "######################## Configure tools #########################"
+set -xe
+
+script_dir=$(dirname $0)
+cd "${script_dir}"
+
+# vim
+mkdir -p "${HOME}/.vim"
+chmod 750 "${HOME}/.vim"
+cp ./etc/vimrc "${HOME}/.vim"
+chmod 640 "${HOME}/.vim/vimrc"
+
+# tmux
+cp ./etc/tmux.conf "${HOME}/.tmux.conf"
+chmod 640 "${HOME}/.tmux.conf"
+
+# ssh
+mkdir -p "${HOME}/.ssh"
+chmod 700 "${HOME}/.ssh"
+cp ./etc/ssh_config "${HOME}/.ssh/config"
+chmod 640 "${HOME}/.ssh/config"
+
+# git
+git config --global user.name "Guangyu Peng"
+git config --global user.email "guangyupeng@email.com"
+git config --global core.editor vim
+git config --global init.defaultBranch main
+
+set +x
+echo "######################## Configure done ##########################"

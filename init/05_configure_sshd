@@ -1,0 +1,74 @@
+#!/bin/bash
+#
+# Only allow key authentication for sshd service.
+# Author: Guangyu Peng
+
+echo "######################## Configure sshd ##########################"
+set -xe
+
+ETC_DIR="/etc/ssh"
+ETC_FILE="${ETC_DIR}/sshd_config"
+ETC_FILE_BAK="${ETC_DIR}/sshd_config.bak"
+PORT="2333"
+MAX_SESSIONS="10"
+
+# --------------------------------- Back up -----------------------------------
+if [[ ! -f "${ETC_FILE_BAK}" ]]; then
+  sudo cp "${ETC_FILE}" "${ETC_FILE_BAK}"
+fi
+
+# ------------------------------ Edit etc file --------------------------------
+# delete comments
+sudo sed -i "12,\$s/^#.*//" "${ETC_FILE}"
+
+# print motd
+sudo sed -i "/^PrintMotd /d" "${ETC_FILE}"
+sudo sed -i "\$s/$/\n/" "${ETC_FILE}"
+sudo sed -i "\$a PrintMotd yes" "${ETC_FILE}"
+
+# set port
+sudo sed -i "/^Port /d" "${ETC_FILE}"
+sudo sed -i "\$s/$/\n/" "${ETC_FILE}"
+sudo sed -i "\$a Port ${PORT}" "${ETC_FILE}"
+
+# set max sessions
+sudo sed -i "/^MaxSessions /d" "${ETC_FILE}"
+sudo sed -i "\$s/$/\n/" "${ETC_FILE}"
+sudo sed -i "\$a MaxSessions ${MAX_SESSIONS}" "${ETC_FILE}"
+
+# forbid root to log in
+sudo sed -i "/^PermitRootLogin /d" "${ETC_FILE}"
+sudo sed -i "\$s/$/\n/" "${ETC_FILE}"
+sudo sed -i "\$a PermitRootLogin no" "${ETC_FILE}"
+
+# forbid password authentication
+sudo sed -i "/^PasswordAuthentication /d" "${ETC_FILE}"
+sudo sed -i "/^KbdInteractiveAuthentication /d" "${ETC_FILE}"
+sudo sed -i "/^UsePAM /d" "${ETC_FILE}"
+sudo sed -i "\$s/$/\n/" "${ETC_FILE}"
+sudo sed -i "\$a PasswordAuthentication no" "${ETC_FILE}"
+sudo sed -i "\$a KbdInteractiveAuthentication no" "${ETC_FILE}"
+sudo sed -i "\$a UsePAM yes" "${ETC_FILE}"
+
+# enable rsa key authentication
+sudo sed -i "/^PubkeyAuthentication /d" "${ETC_FILE}"
+sudo sed -i "\$s/$/\n/" "${ETC_FILE}"
+sudo sed -i "\$a PubkeyAuthentication yes" "${ETC_FILE}"
+
+# ssh session keep alive
+sudo sed -i "/^TCPKeepAlive /d" "${ETC_FILE}"
+sudo sed -i "/^ClientAliveInterval /d" "${ETC_FILE}"
+sudo sed -i "/^ClientAliveCountMax /d" "${ETC_FILE}"
+sudo sed -i "\$s/$/\n/" "${ETC_FILE}"
+sudo sed -i "\$a TCPKeepAlive yes" "${ETC_FILE}"
+sudo sed -i "\$a ClientAliveInterval 30" "${ETC_FILE}"
+sudo sed -i "\$a ClientAliveCountMax 10" "${ETC_FILE}"
+
+# delete unneeded empty lines
+sudo sed -i "/./,/^$/!d" "${ETC_FILE}"
+
+# --------------------------- Restart sshd service ----------------------------
+sudo systemctl restart sshd
+
+set +x
+echo "###################### Service sshd ready ########################"
