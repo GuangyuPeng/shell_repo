@@ -1,0 +1,50 @@
+#!/bin/bash
+#
+# Delete users in bulk, directories in /home and /var/mail will be deleted.
+# To ignore some users, edit variable 'EXCLUDE_USERS'.
+# Author: Guangyu Peng
+
+set -eu
+
+EXCLUDE_USERS=()
+
+checkroot() {
+  if [[ "${EUID}" -ne 0 ]]; then
+    echo "You need to run this script as root." >&2
+    exit 1
+  fi
+}
+
+main() {
+  checkroot
+  user_names=$(awk -F ':' '$3>=1000 && $1!="nobody" {print $1}' /etc/passwd)
+  user_names=(${user_names})
+  for exclude_user in "${EXCLUDE_USERS[@]}"; do
+    user_names=(${user_names[@]/${exclude_user}})
+  done
+
+  echo "These users will be deleted:"
+  echo "${user_names[@]}"
+  while true; do
+    read -p "Will we go on (Yes/No)? " yn
+    case "${yn}" in
+      [Yy]es)
+        echo "Deleting users."
+        for username in "${user_names[@]}"; do
+          userdel -r "${username}"
+        done
+        echo "Finished."
+        break
+        ;;
+      [Nn]o)
+        echo "Stop script."
+        break
+        ;;
+      *)
+        echo "Please answer yes or no."
+        ;;
+    esac
+  done
+}
+
+main "$@"

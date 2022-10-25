@@ -32,7 +32,11 @@ Just run `./run_init` to initialize a new system.
 
 ### <a name='SystemManagement'></a>System Management
 
-TODO
+This module includes scripts to manage various aspects of the system, such as
+user management, network management, etc.
+
+* User management: create users, delete users, etc.
+* TODO
 
 ### <a name='ProductsConstruction'></a>Products Construction
 

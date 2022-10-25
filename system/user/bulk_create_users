@@ -1,0 +1,48 @@
+#!/bin/bash
+#
+# Create users with their identity files, the name of identity file 
+# must be <user>.pub, where <user> is the username created. The default
+# password is the same with username.
+# Usage: $0 directory_of_identity_file
+#
+# Author: Guangyu Peng
+
+set -eu
+
+checkroot() {
+  if [[ "${EUID}" -ne 0 ]]; then
+    echo "You need to run this script as root." >&2
+    exit 1
+  fi
+}
+
+main() {
+  local usage="Usage: $0 directory_of_identity_file"
+  checkroot
+  if (($# < 1)); then
+    echo "${usage}"
+    exit 1
+  fi
+
+  identity_file_dir="$1"
+  pubkeys=($(ls "${identity_file_dir}"))
+  for pubkey in "${pubkeys[@]}"; do
+    identity_file="${identity_file_dir}/${pubkey}"
+    username=$(echo "${pubkey}" | awk -F '.' '{print $1}')
+    echo "Creating user '${username}' with identity file '${identity_file}'."
+    useradd -m -s /bin/bash "${username}"
+    homedir=$(getent passwd "${username}" | cut -d: -f6)
+    chmod 750 "${homedir}"
+    mkdir -p "${homedir}/.ssh"
+    cat "${identity_file}" >> "${homedir}/.ssh/authorized_keys"
+    chmod 700 "${homedir}/.ssh"
+    chmod 600 "${homedir}/.ssh/authorized_keys"
+    chown -R "${username}:${username}" "${homedir}/.ssh"
+    # set password
+    echo "${username}:${username}" | chpasswd
+    # require to change password on first login
+    chage -d 0 "${username}"
+  done
+}
+
+main "$@"
