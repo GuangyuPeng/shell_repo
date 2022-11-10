@@ -4,32 +4,44 @@
 # Author: Guangyu Peng
 
 echo "######################## Configure tools #########################"
-set -xe
+set -xeu
 
-script_dir=$(dirname $0)
-cd "${script_dir}"
+source "${SHELLREPOPATH}/lib/sh/utils.sh"
+os_name="$(get_os_name)"
+ETC_DIR="${SHELLREPOPATH}/init/etc"
 
-# vim
-mkdir -p "${HOME}/.vim"
-chmod 750 "${HOME}/.vim"
-cp ./etc/vimrc "${HOME}/.vim"
-chmod 640 "${HOME}/.vim/vimrc"
+cp "${ETC_DIR}/dir_colors" ~/.dir_colors
+cp "${ETC_DIR}/my_env" ~/.my_env
+cp "${ETC_DIR}/p10k.zsh" ~/.p10k.zsh
+cp "${ETC_DIR}/tmux.conf" ~/.tmux.conf
+cp "${ETC_DIR}/zshrc" ~/.zshrc
 
-# tmux
-cp ./etc/tmux.conf "${HOME}/.tmux.conf"
-chmod 640 "${HOME}/.tmux.conf"
-
-# ssh
-mkdir -p "${HOME}/.ssh"
-chmod 700 "${HOME}/.ssh"
-cp ./etc/ssh_config "${HOME}/.ssh/config"
-chmod 640 "${HOME}/.ssh/config"
+echo "export SHELLREPOPATH=\"${SHELLREPOPATH}\"" >> ~/.my_env
+echo "[[ ! -f ~/.my_env ]] || source ~/.my_env" >> ~/.bashrc
 
 # git
 git config --global user.name "Guangyu Peng"
 git config --global user.email "guangyupeng@email.com"
 git config --global core.editor vim
 git config --global init.defaultBranch main
+
+# ssh
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+cp -rf "${ETC_DIR}"/ssh/* ~/.ssh/
+
+# config
+mkdir -p ~/.config
+cp -rf "${ETC_DIR}"/config/* ~/.config/
+
+# vim
+mkdir -p ~/.vim
+chmod 750 ~/.vim
+cp -rf "${ETC_DIR}"/vim/* ~/.vim/
+
+if ! echo "${os_name}" | grep -q 'macos'; then
+  fc-cache -f -v
+fi
 
 set +x
 echo "######################## Configure done ##########################"

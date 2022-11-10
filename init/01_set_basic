@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Automatically set basic info: timezone, umask.
+# Automatically set basic info.
 # Author: Guangyu Peng
 
 echo "######################## Start basic set #########################"
@@ -9,8 +9,6 @@ set -xe
 TIMEZONE_FILE="/usr/share/zoneinfo/Asia/Shanghai"
 
 sudo ln -sf "${TIMEZONE_FILE}" /etc/localtime
-
-echo "umask 0022" >> "${HOME}/.bashrc"
 
 chmod 750 "${HOME}"
 

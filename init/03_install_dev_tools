@@ -4,24 +4,71 @@
 # Author: Guangyu Peng
 
 echo "######################### Install tools ##########################"
-set -xe
+set -xeu
 
-TOOL_LIST=("vim" \
-           "git" \
-           "tmux" \
-           "wget" \
-           "net-tools" \
-           "build-essential" \
-           "openssh-server" \
-           "openssh-client" \
-           "landscape-common" \
-           "update-notifier-common" \
-           "fwupd" \
-          )
+export NEEDRESTART_SUSPEND=1
+source "${SHELLREPOPATH}/lib/sh/utils.sh"
 
-for tool in "${TOOL_LIST[@]}"; do
-  sudo apt -y install "${tool}"
-done
+os_name="$(get_os_name)"
+
+# Install basic tools
+if echo "${os_name}" | grep -q 'centos'; then
+  # TODO: install developmental tools on centos
+  :
+elif echo "${os_name}" | grep -q 'ubuntu'; then
+  install_pkg vim git tmux wget curl python3 python-is-python3 net-tools \
+    build-essential openssh-server openssh-client landscape-common fwupd \
+    update-notifier-common bc exuberant-ctags ncat xsel zip unzip gzip \
+    fonts-noto-core fonts-noto-color-emoji fontconfig libssl-dev libffi-dev \
+    python3-pip-whl python3-pip python-setuptools fonts-powerline
+elif echo "${os_name}" | grep -q 'arch'; then
+  # TODO: install developmental tools on arch linux
+  :
+elif echo "${os_name}" | grep -q 'macos'; then
+  # TODO: install developmental tools on macos
+  :
+else
+  echo "Unknown OS: ${os_name}"
+  exit 1
+fi
+
+# Install zsh
+if [[ ! -f /bin/zsh ]]; then
+  install_pkg zsh
+fi
+if [[ "${SHELL}" != "/bin/zsh" ]]; then
+  chsh -s /bin/zsh
+fi
+# oh-my-zsh
+ohmyzsh_url="https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master"
+ohmyzsh_url="${ohmyzsh_url}/tools/install.sh"
+echo "${ohmyzsh_url}"
+sh -c "$(curl -fsSL ${ohmyzsh_url})"
+# zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
+ "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
+# zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-autosuggestions \
+  "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
+# powerlevel10k theme
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
+  "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/powerlevel10k"
+
+# Install powerline
+sudo -E pip3 install --upgrade powerline-status psutil python-hglib i3ipc \
+  netifaces -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+# Install Nodejs
+if ! which node; then
+  curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+  install_pkg nodejs
+fi
+sudo corepack enable npm
+node --version
+npm --version
+# gitmoji
+sudo -E npm install --global gitmoji-cli \
+  --registry=https://registry.npm.taobao.org
 
 set +x
 echo "######################### Tools ready ############################"

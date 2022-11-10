@@ -20,7 +20,7 @@ main() {
   local usage="Usage: $0 directory_of_identity_file"
   checkroot
   if (($# < 1)); then
-    echo "${usage}"
+    echo "${usage}" >&2
     exit 1
   fi
 

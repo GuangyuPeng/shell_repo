@@ -1,0 +1,14 @@
+{
+	"groups": {
+		"active_window_status": {"fg": "onedark:white",   "bg": "onedark:background",    "attrs": []},
+		"window_status":        {"fg": "onedark:commentgrey",     "bg": "onedark:background",    "attrs": []},
+		"activity_status":      {"fg": "onedark:lightyellow",     "bg": "onedark:background",    "attrs": []},
+		"bell_status":          {"fg": "onedark:darkred",        "bg": "onedark:background",    "attrs": []},
+		"window":               {"fg": "onedark:white",      "bg": "onedark:background",    "attrs": []},
+		"window:divider":       {"fg": "onedark:white",      "bg": "onedark:background",    "attrs": []},
+		"window:current":       {"fg": "onedark:white",      "bg": "onedark:commentgrey", "attrs": []},
+		"window_name":          {"fg": "onedark:white",      "bg": "onedark:commentgrey", "attrs": ["bold"]},
+		"session":              {"fg": "onedark:black",      "bg": "onedark:blue",   "attrs": ["bold"]},
+		"session:prefix":       {"fg": "onedark:green",     "bg": "onedark:background", "attrs": ["bold"]}
+	}
+}

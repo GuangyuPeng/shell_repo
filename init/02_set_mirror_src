@@ -4,7 +4,9 @@
 # Author: Guangyu Peng
 
 echo "####################### Set mirror source ########################"
-set -xe
+set -xeu
+
+source "${SHELLREPOPATH}/lib/sh/utils.sh"
 
 PKT_SRC_PATH="/etc/apt"
 PKT_SRC_FILE="sources.list"

@@ -16,7 +16,7 @@ main() {
   local usage="Usage: $0 username identity_file"
   checkroot
   if (($# < 2)); then
-    echo "${usage}"
+    echo "${usage}" >&2
     exit 1
   fi
   username="$1"

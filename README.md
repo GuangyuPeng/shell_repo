@@ -14,6 +14,12 @@ a new linux system, install some common developmental tools, manage various
 functions in system, install and configure some high-quality products, etc.
 
 Note: scripts in this repository have been tested on **Ubuntu 22.04** system.
+After cloning this repository, you should firstly set the environment variable
+**SHELLREPOPATH** to the full path of `shell_repo`'s root directory, e.g.
+
+```shell
+export SHELLREPOPATH="/home/user/shell_repo"
+```
 
 ## <a name='Modules'></a>Modules
 
@@ -22,13 +28,24 @@ Note: scripts in this repository have been tested on **Ubuntu 22.04** system.
 This module helps to do some necessary work of configuration and installation
 after installing a new linux, including:
 
-* Set some basic info: timezone, umask.
+* Do some basic settings such as timezone.
 * Configure software mirror source.
-* Install necessary tools.
-* Configure common developmental tools.
+* Install basic developmental tools.
+    * use `zsh` as the default shell
+    * use `Powerlevel10k` as theme of zsh
+    * use `powerline` in tmux
+* Install configuration files of developmental tools.
 * Configure sshd to only allow key authentication and restart it.
 
-Just run `./run_init` to initialize a new system.
+Just run `./run_init` to initialize a new system. Users in China may need to
+set proxy before running `./run_init`.
+中国用户可能需要先挂代理再执行`./run_init`。
+
+After initialization, the terminal will look like this:
+![zsh_theme](./zsh_theme.png)
+Make sure you have installed the [Meslo Nerd Font](https://github.com/romkatv/powerlevel10k#meslo-nerd-font-patched-for-powerlevel10k)
+recommended by `Powerlevel10k` and set your terminal to use this font, so that
+the symbols can be printed correctly.
 
 ### <a name='SystemManagement'></a>System Management
 
