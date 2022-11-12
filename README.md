@@ -13,7 +13,8 @@ This repository contains useful shell scripts that automatically configure
 a new linux system, install some common developmental tools, manage various
 functions in system, install and configure some high-quality products, etc.
 
-Note: scripts in this repository have been tested on **Ubuntu 22.04** system.
+Note: scripts in this repository have been tested on **Ubuntu 22.04** and
+**Ubuntu 20.04** system.
 After cloning this repository, you should firstly set the environment variable
 **SHELLREPOPATH** to the full path of `shell_repo`'s root directory, e.g.
 
@@ -40,6 +41,8 @@ after installing a new linux, including:
 Just run `./run_init` to initialize a new system. Users in China may need to
 set proxy before running `./run_init`.
 中国用户可能需要先挂代理再执行`./run_init`。
+
+After you see `Oh my zsh`, you should execute `exit` to go on.
 
 After initialization, the terminal will look like this:
 ![zsh_theme](./zsh_theme.png)
