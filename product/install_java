@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+# Automatically install openjdk.
+# Author: Guangyu Peng
+set -eu
+source "${SHELLREPOPATH}/lib/sh/utils.sh"
+
+main() {
+  checkroot
+  install_pkg openjdk-17-jdk
+  java -version
+  echo "JAVA_HOME=\"/usr/lib/jvm/java-17-openjdk-amd64\"" >> /etc/environment
+  source /etc/environment
+  echo "${JAVA_HOME}"
+}
+
+main "$@"

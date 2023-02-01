@@ -10,6 +10,16 @@ err() {
   echo "[$(date +'%Y-%m-%d %H:%M:%S')] $*" >&2
 }
 
+#######################################
+# Only permit root to continue
+#######################################
+checkroot() {
+  if [[ "${EUID}" -ne 0 ]]; then
+    echo "You need to run this script as root." >&2
+    exit 1
+  fi
+}
+
 ###############################################
 # Get the NIC device name to reach a given host
 # Arguments:

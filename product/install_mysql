@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+# Automatically install mysql-server.
+# Author: Guangyu Peng
+set -eu
+source "${SHELLREPOPATH}/lib/sh/utils.sh"
+
+apt_install_mysql() {
+  apt_config_url="https://dev.mysql.com/get/mysql-apt-config_0.8.24-1_all.deb"
+  apt_config_file=$(echo "${apt_config_url}" | awk -F / '{print $NF}')
+  cd /tmp
+  wget "${apt_config_url}"
+  dpkg -i "${apt_config_file}"
+  apt update
+  install_pkg mysql-server
+  systemctl status mysql
+}
+
+main() {
+  checkroot
+  os_name="$(get_os_name)"
+  if echo "${os_name}" | grep -q 'centos'; then
+    # TODO: install developmental tools on centos
+    :
+  elif echo "${os_name}" | grep -q 'ubuntu'; then
+    apt_install_mysql
+  fi
+}
+
+main "$@"

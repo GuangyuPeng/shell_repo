@@ -60,4 +60,4 @@ user management, network management, etc.
 
 ### <a name='ProductsConstruction'></a>Products Construction
 
-TODO
+This module includes scripts to install state-of-the-art products.
