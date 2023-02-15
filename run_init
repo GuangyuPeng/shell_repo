@@ -12,7 +12,6 @@ REPOPATH="$(pwd)"
 
 export SHELLREPOPATH="${REPOPATH}"
 echo "${SHELLREPOPATH}"
-umask 0022
 
 ./init/01_set_basic
 ./init/02_set_mirror_src
