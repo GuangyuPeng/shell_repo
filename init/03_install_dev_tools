@@ -20,7 +20,7 @@ elif echo "${os_name}" | grep -q 'ubuntu'; then
     build-essential openssh-server openssh-client landscape-common fwupd \
     update-notifier-common bc exuberant-ctags ncat xsel zip unzip gzip \
     fonts-noto-core fonts-noto-color-emoji fontconfig libssl-dev libffi-dev \
-    python3-pip python-setuptools fonts-powerline
+    python3-pip python-setuptools fonts-powerline iperf
 elif echo "${os_name}" | grep -q 'arch'; then
   # TODO: install developmental tools on arch linux
   :
@@ -69,6 +69,9 @@ npm --version
 # gitmoji
 sudo -E npm install --global gitmoji-cli \
   --registry=https://registry.npm.taobao.org
+
+# Install python3 packages
+sudo -E pip3 install virtualenv -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 set +x
 echo "######################### Tools ready ############################"
