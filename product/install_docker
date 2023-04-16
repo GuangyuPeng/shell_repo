@@ -1,0 +1,43 @@
+#!/bin/bash
+#
+# Automatically install docker engine.
+# Author: Guangyu Peng
+set -eu
+source "${SHELLREPOPATH}/lib/sh/utils.sh"
+
+apt_install_docker() {
+  # Update the apt package index and install packages
+  # to allow apt to use a repository over HTTPS
+  sudo apt update
+  sudo apt install -y ca-certificates curl gnupg
+  # Add Docker’s official GPG key
+  sudo mkdir -m 0755 -p /etc/apt/keyrings
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
+    | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+  # Use the following command to set up the repository
+  echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+  https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "${VERSION_CODENAME}") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  # Update the apt package index
+  sudo apt update
+  # Install Docker Engine, containerd, and Docker Compose
+  sudo apt install -y docker-ce docker-ce-cli containerd.io \
+    docker-buildx-plugin docker-compose-plugin
+
+  systemctl status docker
+}
+
+main() {
+  checkroot
+  os_name="$(get_os_name)"
+  if echo "${os_name}" | grep -q 'centos'; then
+    # TODO: install developmental tools on centos
+    :
+  elif echo "${os_name}" | grep -q 'ubuntu'; then
+    apt_install_docker
+  fi
+}
+
+main "$@"

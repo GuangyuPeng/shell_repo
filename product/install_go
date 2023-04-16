@@ -1,0 +1,29 @@
+#!/bin/bash
+#
+# Automatically install golang.
+# Author: Guangyu Peng
+set -eu
+source "${SHELLREPOPATH}/lib/sh/utils.sh"
+
+linux_install_go() {
+  url="https://go.dev/dl/go1.20.3.linux-amd64.tar.gz"
+  file=$(echo ${url} | awk -F/ '{ print $NF }')
+  wget ${url} -O "/tmp/${file}"
+  rm -rf /usr/local/go && tar -C /usr/local -zxvf "/tmp/${file}"
+  echo "export PATH=\${PATH}:/usr/local/go/bin" >> ${HOME}/.my_env
+  source ${HOME}/.my_env
+  go version
+}
+
+main() {
+  checkroot
+  os_name="$(get_os_name)"
+  if echo "${os_name}" | grep -q 'macos'; then
+    # TODO: install developmental tools on macos
+    :
+  else
+    linux_install_go
+  fi
+}
+
+main "$@"
