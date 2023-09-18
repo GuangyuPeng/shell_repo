@@ -20,7 +20,7 @@ elif echo "${os_name}" | grep -q 'ubuntu'; then
     build-essential openssh-server openssh-client landscape-common fwupd \
     update-notifier-common bc exuberant-ctags ncat xsel zip unzip gzip \
     fonts-noto-core fonts-noto-color-emoji fontconfig libssl-dev libffi-dev \
-    python3-pip python-setuptools fonts-powerline iperf
+    python3-pip python-setuptools fonts-powerline iperf cmake gdb
 elif echo "${os_name}" | grep -q 'arch'; then
   # TODO: install developmental tools on arch linux
   :
