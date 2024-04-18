@@ -7,7 +7,28 @@
 # Print error message
 #######################################
 err() {
-  echo "[$(date +'%Y-%m-%d %H:%M:%S')] $*" >&2
+  set_echocolor green
+  echo -n "[$(date +'%Y-%m-%d %H:%M:%S')] "
+  set_echocolor red
+  echo -e "$*" >&2
+  set_echocolor nocolor
+}
+
+#######################################
+# Expand tilde(~) from a path
+# Arguments:
+#   variable name
+# Returns:
+#   0 if success, non-zero on error
+#######################################
+expanduser() {
+  local USAGE="Usage: ${FUNCNAME[0]} VARNAME"
+  if (($# < 1)); then
+    err "$USAGE"
+    return 1
+  fi
+  local varname=$1
+  eval echo ${!varname}
 }
 
 #######################################
