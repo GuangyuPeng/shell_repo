@@ -117,7 +117,7 @@ class XmlParser(object):
         df['throughput'] = df['rxBytes'] * 8.0 / df['fct']
         self.all_stats_df = df.copy()
         # Delete reverse flows that only containing ACKs
-        self.stats_df = df[df.txBytes / df.txPackets > 60].copy()
+        self.stats_df = df[df.txBytes / df.txPackets > 80].copy()
         return self.stats_df
 
     def get_fct_breakdown(self):
