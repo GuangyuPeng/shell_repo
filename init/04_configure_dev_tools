@@ -20,8 +20,8 @@ echo "export SHELLREPOPATH=\"${SHELLREPOPATH}\"" >> ~/.my_env
 echo "[[ ! -f ~/.my_env ]] || source ~/.my_env" >> ~/.bashrc
 
 # git
-git config --global user.name "Guangyu Peng"
-git config --global user.email "guangyupeng@email.com"
+git config --global user.name "GuangyuPeng"
+git config --global user.email "gypeng2021@163.com"
 git config --global core.editor vim
 git config --global init.defaultBranch main
 

@@ -4,15 +4,17 @@
 [[ ! -f ~/.dir_colors ]] || eval "$(dircolors ~/.dir_colors)"
 
 # powerline settings
-if [[ -z "${powerline_repo}" ]]; then
-  powerline_repo="$(pip3 show powerline-status \
-                    | grep -i 'location' \
-                    | awk '{print $2}')"
-  if [[ -n "${powerline_repo}" && -d "${powerline_repo}/powerline" ]]; then
-    export powerline_repo="$powerline_repo/powerline"
-  else
-    export powerline_repo=
-  fi
-fi
+# if [[ -z "${powerline_repo}" ]]; then
+#  powerline_repo="$(pip3 show powerline-status \
+#                    | grep -i 'location' \
+#                    | awk '{print $2}')"
+#  if [[ -n "${powerline_repo}" && -d "${powerline_repo}/powerline" ]]; then
+#    export powerline_repo="$powerline_repo/powerline"
+#  else
+#    export powerline_repo=
+#  fi
+# fi
 
 # powerline-daemon -q || true
+
+export COREPACK_NPM_REGISTRY=https://registry.npmmirror.com

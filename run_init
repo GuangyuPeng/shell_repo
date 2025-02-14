@@ -14,10 +14,10 @@ export SHELLREPOPATH="${REPOPATH}"
 echo "${SHELLREPOPATH}"
 
 ./init/01_set_basic
-./init/02_set_mirror_src
+# ./init/02_set_mirror_src
 ./init/03_install_dev_tools
 ./init/04_configure_dev_tools
-./init/05_configure_sshd
+# ./init/05_configure_sshd
 
 set +x
 echo "### Congratulations! The basic Environment is ready in system! ###"

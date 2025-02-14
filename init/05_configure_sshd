@@ -69,6 +69,7 @@ sudo sed -i "/./,/^$/!d" "${ETC_FILE}"
 
 # --------------------------- Restart sshd service ----------------------------
 sudo systemctl restart sshd
+sudo systemctl restart ssh
 
 set +x
 echo "###################### Service sshd ready ########################"
